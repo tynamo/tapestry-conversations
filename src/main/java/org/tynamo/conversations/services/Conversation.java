@@ -1,4 +1,4 @@
-package org.trailsframework.conversations.services;
+package org.tynamo.conversations.services;
 
 public class Conversation {
 	private final String pageName;

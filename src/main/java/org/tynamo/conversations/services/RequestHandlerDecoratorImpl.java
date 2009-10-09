@@ -1,4 +1,4 @@
-package org.trailsframework.conversations.services;
+package org.tynamo.conversations.services;
 
 import org.apache.tapestry5.ioc.Invocation;
 import org.apache.tapestry5.ioc.MethodAdvice;

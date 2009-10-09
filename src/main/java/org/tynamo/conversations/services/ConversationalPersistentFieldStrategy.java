@@ -1,4 +1,4 @@
-package org.trailsframework.conversations.services;
+package org.tynamo.conversations.services;
 
 import static org.apache.tapestry5.ioc.internal.util.CollectionFactory.newList;
 import static org.apache.tapestry5.ioc.internal.util.Defense.notBlank;

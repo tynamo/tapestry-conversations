@@ -1,4 +1,4 @@
-package org.trailsframework.conversations.services;
+package org.tynamo.conversations.services;
 
 import java.util.Collections;
 import java.util.HashMap;

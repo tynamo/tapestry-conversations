@@ -1,4 +1,4 @@
-package org.trailsframework.conversations.services;
+package org.tynamo.conversations.services;
 
 public interface ConversationManager {
 	public enum Parameters {

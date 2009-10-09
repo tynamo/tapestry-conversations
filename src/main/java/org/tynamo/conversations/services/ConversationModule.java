@@ -1,4 +1,4 @@
-package org.trailsframework.conversations.services;
+package org.tynamo.conversations.services;
 
 import java.io.IOException;
 import java.util.Properties;
@@ -32,7 +32,7 @@ public class ConversationModule {
 	}
 
 	public static void contributeComponentClassResolver(Configuration<LibraryMapping> configuration) {
-		configuration.add(new LibraryMapping("conversation", "org.trailsframework.conversations"));
+		configuration.add(new LibraryMapping("conversation", "org.tynamo.conversations"));
 	}
 
 	public static void contributeClasspathAssetAliasManager(MappedConfiguration<String, String> configuration) {

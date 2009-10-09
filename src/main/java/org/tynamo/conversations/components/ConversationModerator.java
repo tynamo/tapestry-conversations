@@ -1,4 +1,4 @@
-package org.trailsframework.conversations.components;
+package org.tynamo.conversations.components;
 
 import org.apache.tapestry5.ComponentResources;
 import org.apache.tapestry5.Link;
@@ -10,8 +10,8 @@ import org.apache.tapestry5.annotations.Parameter;
 import org.apache.tapestry5.ioc.annotations.Inject;
 import org.apache.tapestry5.json.JSONObject;
 import org.apache.tapestry5.services.Request;
-import org.trailsframework.conversations.ConversationAware;
-import org.trailsframework.conversations.services.ConversationManager;
+import org.tynamo.conversations.ConversationAware;
+import org.tynamo.conversations.services.ConversationManager;
 
 @IncludeJavaScriptLibrary("ConversationModerator.js")
 public class ConversationModerator {
