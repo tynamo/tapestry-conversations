@@ -4,7 +4,7 @@
 	<artifactId>tapestry-conversations</artifactId>
 	<name>Tynamo Conversations</name>
 	<packaging>jar</packaging>
-	<version>0.2.0</version>
+	<version>0.2.1-SNAPSHOT</version>
 	<description>
 		An implementation of conversation-within-page concept for Tapestry 5
 	</description>
@@ -114,6 +114,6 @@
 		<connection>scm:git:git@github.com:tynamo/tapestry-conversations.git</connection>
 		<developerConnection>scm:git:git@github.com:tynamo/tapestry-conversations.git</developerConnection>
 		<url>https://github.com/tynamo/tapestry-conversations</url>
-    <tag>tapestry-conversations-0.2.0</tag>
+    <tag>HEAD</tag>
   </scm>
 </project>
