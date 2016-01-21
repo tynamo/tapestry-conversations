@@ -22,7 +22,6 @@ public class SessionConversation {
 	@Property
 	private String comment;
 
-	@SuppressWarnings("unused")
 	@Property
 	private Integer secondsLeft;
 
@@ -38,9 +37,9 @@ public class SessionConversation {
 		}
 		secondsLeft = conversationManager.getSecondsBeforeActiveConversationBecomesIdle();
 	}
-	
+
 	public void onAction() {
 		conversationManager.endConversation(conversationId);
 	}
-	
+
 }

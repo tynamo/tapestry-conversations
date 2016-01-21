@@ -31,14 +31,16 @@ public class ConversationManagerImpl implements ConversationManager {
 	private ConversationalPersistentFieldStrategy pagePersistentFieldStrategy;
 
 	private HttpServletRequest servletRequest;
-	
+
 	private Map<String, List<ConversationAware>> conversationAwareListeners = Collections.synchronizedMap(new HashMap<String, List<ConversationAware>>());
 
-	public ConversationManagerImpl(Request request, HttpServletRequest servletRequest, Cookies cookies, Map<Class,ConversationAware> listeners) {
+	@SuppressWarnings("rawtypes")
+	public ConversationManagerImpl(Request request, HttpServletRequest servletRequest, Cookies cookies,
+		Map<Class, ConversationAware> listeners) {
 		this.request = request;
 		this.cookies = cookies;
 		this.servletRequest = servletRequest;
-		for (Entry<Class,ConversationAware> entry : listeners.entrySet() ) {
+		for (Entry<Class, ConversationAware> entry : listeners.entrySet()) {
 			String pageName = entry.getKey().getSimpleName();
 			addConversationListener(pageName, entry.getValue());
 		}
@@ -107,8 +109,8 @@ public class ConversationManagerImpl implements ConversationManager {
 
 	public String createConversation(String id, String pageName, Integer maxIdleSeconds, Integer maxConversationLengthSeconds, boolean useCookie) {
 		pageName = pageName == null ? "" : pageName;
-		// Don't use path in a cookie, it's actually relatively difficult to find out from here
-		if (useCookie) cookies.writeCookieValue(pageName.toLowerCase() + Keys._conversationId.toString(), String.valueOf(id));
+		if (useCookie)
+			cookies.getBuilder(pageName.toLowerCase() + Keys._conversationId.toString(), String.valueOf(id)).write();
 		Conversation conversation = new Conversation(servletRequest.getSession(true).getId(), id, pageName, maxIdleSeconds, maxConversationLengthSeconds, useCookie);
 		endIdleConversations();
 		getConversations().put(id, conversation);
