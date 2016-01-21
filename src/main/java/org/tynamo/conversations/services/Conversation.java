@@ -23,7 +23,8 @@ public final class Conversation implements Serializable {
 		return usingCookie;
 	}
 
-	Conversation(String sessionId, String id, String pageName, Integer maxIdleSeconds, Integer maxConversationLengthSeconds, boolean usingCookie) {
+	public Conversation(String sessionId, String id, String pageName, Integer maxIdleSeconds,
+		Integer maxConversationLengthSeconds, boolean usingCookie) {
 		if (maxIdleSeconds == null) maxIdleSeconds = 0;
 		if (maxConversationLengthSeconds == null) maxConversationLengthSeconds = 0;
 		this.sessionId = sessionId;
@@ -42,7 +43,7 @@ public final class Conversation implements Serializable {
 	public String getSessionId() {
 		return sessionId;
 	}
-	
+
 	public String getPageName() {
 		return pageName;
 	}

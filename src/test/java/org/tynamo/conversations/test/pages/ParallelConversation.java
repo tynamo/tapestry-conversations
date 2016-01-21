@@ -2,12 +2,8 @@ package org.tynamo.conversations.test.pages;
 
 import java.util.Random;
 
-import org.apache.tapestry5.Block;
 import org.apache.tapestry5.ComponentResources;
-import org.apache.tapestry5.RenderSupport;
-import org.apache.tapestry5.annotations.Environmental;
 import org.apache.tapestry5.annotations.Persist;
-import org.apache.tapestry5.annotations.Property;
 import org.apache.tapestry5.ioc.annotations.Inject;
 import org.tynamo.conversations.services.ConversationManager;
 

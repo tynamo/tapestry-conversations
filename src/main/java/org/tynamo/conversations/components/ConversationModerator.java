@@ -2,26 +2,23 @@ package org.tynamo.conversations.components;
 
 import org.apache.tapestry5.ComponentResources;
 import org.apache.tapestry5.Link;
-import org.apache.tapestry5.RenderSupport;
 import org.apache.tapestry5.annotations.AfterRender;
-import org.apache.tapestry5.annotations.Environmental;
-import org.apache.tapestry5.annotations.IncludeJavaScriptLibrary;
 import org.apache.tapestry5.annotations.Parameter;
 import org.apache.tapestry5.ioc.annotations.Inject;
 import org.apache.tapestry5.json.JSONObject;
 import org.apache.tapestry5.services.Request;
+import org.apache.tapestry5.services.javascript.JavaScriptSupport;
 import org.tynamo.conversations.ConversationModeratorAware;
 import org.tynamo.conversations.services.ConversationManager;
 
-@IncludeJavaScriptLibrary("ConversationModerator.js")
 public class ConversationModerator {
 	private static final String eventName = "checkidle";
 
 	@Inject
 	private ComponentResources componentResources;
 
-	@Environmental
-	private RenderSupport renderSupport;
+	@Inject
+	private JavaScriptSupport javaScriptSupport;
 
 	@Parameter("15")
 	private int idleCheck;
@@ -98,8 +95,12 @@ public class ConversationModerator {
 		baseURI = baseURI.substring(0, index + 1);
 
 		// System.out.println("Active conversation is " + conversationManager.getActiveConversation());
-		renderSupport.addScript(String.format("%s = new ConversationModerator('%s', '%s', %s, true, %s, %s, '%s', '%s');", componentResources.getId(), baseURI,
-				defaultURIparameters, keepAlive, idleCheck, warnBefore, warnBeforeHandler, endedHandler));
+		javaScriptSupport.require("conversation/ConversationModerator").with(componentResources.getId(), baseURI,
+			defaultURIparameters, keepAlive, idleCheck, warnBefore, warnBeforeHandler, endedHandler);
+
+		// renderSupport.addScript(String.format("%s = new ConversationModerator('%s', '%s', %s, true, %s, %s, '%s', '%s');",
+		// componentResources.getId(), baseURI,
+		// defaultURIparameters, keepAlive, idleCheck, warnBefore, warnBeforeHandler, endedHandler));
 	}
 
 }
