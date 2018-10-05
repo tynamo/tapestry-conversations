@@ -73,9 +73,11 @@ public class ConversationManagerImpl implements ConversationManager {
 		// Try reading the conversation id from a cookie first
 		try {
 			conversationId = cookies.readCookieValue(pageName.toLowerCase() + ConversationManagerImpl.Keys._conversationId);
-			Conversation conversation = getConversations().get(conversationId);
-			if (conversation == null) conversationId = null;
-			else if (!conversation.isUsingCookie()) conversationId = null;
+			if (conversationId != null) {
+				Conversation conversation = getConversations().get(conversationId);
+				if (conversation == null) conversationId = null;
+				else if (!conversation.isUsingCookie()) conversationId = null;
+			}
 		} catch (NumberFormatException e) {
 			// Ignore
 		}
@@ -152,6 +154,7 @@ public class ConversationManagerImpl implements ConversationManager {
 	}
 
 	protected Conversation endConversationIfIdle(String conversationId) {
+		if (conversationId == null) return null;
 		Conversation conversation = getConversations().get(conversationId);
 		if (conversation == null) return null;
 		boolean resetTimeout = !("false".equals(request.getParameter(Parameters.keepalive.name())));
