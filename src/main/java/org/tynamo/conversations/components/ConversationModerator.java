@@ -5,6 +5,7 @@ import org.apache.tapestry5.Link;
 import org.apache.tapestry5.annotations.AfterRender;
 import org.apache.tapestry5.annotations.Parameter;
 import org.apache.tapestry5.ioc.annotations.Inject;
+import org.apache.tapestry5.json.JSONLiteral;
 import org.apache.tapestry5.json.JSONObject;
 import org.apache.tapestry5.services.Request;
 import org.apache.tapestry5.services.javascript.JavaScriptSupport;
@@ -94,13 +95,13 @@ public class ConversationModerator {
 		defaultURIparameters += ConversationManager.Parameters.keepalive.name() + "=";
 		baseURI = baseURI.substring(0, index + 1);
 
-		// System.out.println("Active conversation is " + conversationManager.getActiveConversation());
-		javaScriptSupport.require("conversation/ConversationModerator").with(componentResources.getId(), baseURI,
-			defaultURIparameters, keepAlive, idleCheck, warnBefore, warnBeforeHandler, endedHandler);
-
-		// renderSupport.addScript(String.format("%s = new ConversationModerator('%s', '%s', %s, true, %s, %s, '%s', '%s');",
-		// componentResources.getId(), baseURI,
-		// defaultURIparameters, keepAlive, idleCheck, warnBefore, warnBeforeHandler, endedHandler));
+		Object warnBeforeHandlerParam = warnBeforeHandler == null ? new JSONLiteral(null) : warnBeforeHandler;
+		Object endedHandlerParam = endedHandler == null ? new JSONLiteral(null) : endedHandler;
+		
+		// System.out.println("Active conversation is " +  conversationManager.getActiveConversation());
+		javaScriptSupport.require("conversation/ConversationModerator") //
+		        .invoke("startConversation") //
+		        .with(baseURI, defaultURIparameters, keepAlive, "", idleCheck, warnBefore, warnBeforeHandlerParam, endedHandlerParam);
 	}
 
 }

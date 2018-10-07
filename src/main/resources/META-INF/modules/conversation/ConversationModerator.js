@@ -1,79 +1,157 @@
-define([], function(){
-  function ConversationModerator(baseURI, defaultURIparameters, keepAlive, endOnClose, idleCheckSeconds, warnBeforeSeconds,
-  		warnBeforeHandler, endedHandler) {
-		this.baseURI = baseURI;
-		this.defaultURIparameters = defaultURIparameters;
-		this.keepAlive = keepAlive;
-		this.endOnClose = endOnClose;
-		this.idleCheckSeconds = idleCheckSeconds;
-		this.warnBeforeSeconds = warnBeforeSeconds;
-		this.warnBeforeHandler = warnBeforeHandler;
-		this.endedHandler = endedHandler;
-		this.idleCheckId = null;
+define([ 'jquery' ], function() {
 
-		if (idleCheckSeconds != null && idleCheckSeconds > 0) this.checkIdleNext(idleCheckSeconds);
-  }
-  ConversationModerator.prototype.checkIdle = function() {
-		new Ajax.Request(this.baseURI + "checkidle" + this.defaultURIparameters + this.keepAlive + '&warn=' + this.warnBeforeSeconds
-			+'&timestamp='+(new Date()).getTime(), {
-			method: 'get',
-			evalJSON:true,
-			onSuccess: this.handleIdleCheckResult.bind(this)
-		});
-	};
+    var ConversationModerator = function(baseURI, defaultURIparameters,
+            keepAlive, endOnClose, idleCheckSeconds, warnBeforeSeconds,
+            warnBeforeHandler, endedHandler) {
 
-	ConversationModerator.prototype.end = function() {
-		if (!this.endOnClose) return;
-		new Ajax.Request(this.baseURI + "end" + this.defaultURIparameters + false, {
-			method: 'get'
-		});
-	};
+        var vars = {
+            baseURI : null,
+            defaultURIparameters : null,
+            keepAlive : null,
+            endOnClose : null,
+            idleCheckSeconds : null,
+            warnBeforeSeconds : null,
+            warnBeforeHandler : null,
+            endedHandler : null,
+            idleCheckId : null
+        };
 
-	ConversationModerator.prototype.refresh = function() {
-		new Ajax.Request(this.baseURI + "refresh" + this.defaultURIparameters + 'true', {
-			method: 'get'
-		});
-	};
+        var myroot = this;
 
-	ConversationModerator.prototype.checkIdleNext = function(nextCheck) {
-		if (typeof(nextCheck) == 'undefined' || nextCheck <= 0) return;
-		if (this.idleCheckId != null) clearTimeout(this.idleCheckId);
-		this.idleCheckId = setTimeout(this.checkIdle.bind(this), nextCheck * 1000);
-	};
+        this.construct = function(baseURI, defaultURIparameters, keepAlive,
+                endOnClose, idleCheckSeconds, warnBeforeSeconds,
+                warnBeforeHandler, endedHandler) {
+            vars.baseURI = baseURI;
+            vars.defaultURIparameters = defaultURIparameters;
+            vars.keepAlive = keepAlive;
+            vars.endOnClose = endOnClose;
+            vars.idleCheckSeconds = idleCheckSeconds;
+            vars.warnBeforeSeconds = warnBeforeSeconds;
+            vars.warnBeforeHandler = warnBeforeHandler;
+            vars.endedHandler = endedHandler;
+        };
 
-	ConversationModerator.prototype.callHandler = function(handlerName, arg) {
-		// handlerName should be a string identifier of form "obj.property.function"
-		var pos = handlerName.lastIndexOf('.');
-		var context = null;
-		if (pos > 0 ) context = eval(handlerName.substring(0,pos));
-		if (handlerName.substr(handlerName.length-2,2) == '()' ) handlerName = handlerName.substring(0,handlerName.length - 2);
-		var operation = eval(handlerName);
-		// FIXME should log something if operation doesn't exist
-		if (typeof(operation) == 'function') {
-			if (context == null) operation(arg);
-			else operation.bind(context)(arg);
-		}
-	};
+        this.checkIdle = function() {
+            $.ajax({
+                url : vars.baseURI + "checkidle" + vars.defaultURIparameters
+                        + vars.keepAlive + "&warn=" + vars.warnBeforeSeconds
+                        + "&timestamp=" + (new Date()).getTime(),
+                dataType : 'json',
+                success : function(response) {
+                    myroot.handleIdleCheckResult(response.nextCheck,
+                            response.warnFor);
+                },
+                type : 'GET'
+            });
+        };
 
-	ConversationModerator.prototype.warnOfEnd = function(inSeconds) {
-		if (this.warnBeforeHandler != null) {
-			this.callHandler(this.warnBeforeHandler, inSeconds);
-		}
-		else alert('The page will become idle soon...');
-	};
+        this.end = function() {
+            if (!vars.endOnClose) {
+                return;
+            }
 
-	ConversationModerator.prototype.handleIdleCheckResult = function(transport) {
-		var nextCheck = transport.responseJSON.nextCheck;
-		if (isNaN(nextCheck)) nextCheck = -1;
-		if (nextCheck <= 0 ) {
-			if (this.endedHandler != null) this.callHandler(this.endedHandler);
-			return;
-		}
-		var warnFor = transport.responseJSON.warn;
-		if (!isNaN(warnFor)) if (warnFor > 0) this.warnOfEnd(warnFor);
+            $.ajax({
+                url : vars.baseURI + "end" + vars.defaultURIparameters + false,
+                type : 'GET'
+            });
+        };
 
-		this.checkIdleNext(nextCheck);
-	};
+        this.refresh = function() {
+            $.ajax({
+                url : vars.baseURI + "refresh" + vars.defaultURIparameter
+                        + 'true',
+                type : 'GET'
+            });
+        };
 
-  return ConversationModerator;
-});
+        this.checkIdleNext = function(nextCheck) {
+            if (typeof (nextCheck) == 'undefined' || nextCheck <= 0) {
+                return;
+            }
+
+            if (vars.idleCheckId != null) {
+                clearTimeout(vars.idleCheckId);
+            }
+
+            vars.idleCheckId = setTimeout(this.checkIdle.bind(this),
+                    nextCheck * 1000);
+        };
+
+        this.callHandler = function(handlerName, arg) {
+            // handlerName should be a string identifier of form
+            // "obj.property.function"
+            var pos = handlerName.lastIndexOf('.');
+            var context = null;
+
+            if (pos > 0) {
+                context = eval(handlerName.substring(0, pos));
+            }
+
+            if (handlerName.substr(handlerName.length - 2, 2) == '()') {
+                handlerName = handlerName.substring(0, handlerName.length - 2);
+            }
+
+            var operation = eval(handlerName);
+            // FIXME should log something if operation doesn't exist
+            if (typeof (operation) == 'function') {
+                if (context == null) {
+                    operation(arg);
+                } else {
+                    operation.bind(context)(arg);
+                }
+            }
+        };
+
+        this.warnOfEnd = function(inSeconds) {
+            if (vars.warnBeforeHandler != null) {
+                this.callHandler(vars.warnBeforeHandler, inSeconds);
+            } else {
+                alert('The page will become idle soon...');
+            }
+        };
+
+        this.handleIdleCheckResult = function(nextCheck, warnFor) {
+            if (isNaN(nextCheck))
+                nextCheck = -1;
+
+            if (nextCheck <= 0) {
+                if (vars.endedHandler != null) {
+                    this.callHandler(vars.endedHandler);
+                }
+                return;
+            }
+
+            if (!isNaN(warnFor)) {
+                if (warnFor > 0) {
+                    this.warnOfEnd(warnFor);
+                }
+            }
+
+            this.checkIdleNext(nextCheck);
+        };
+
+        // construct the class and pass all options
+        this.construct(baseURI, defaultURIparameters, keepAlive, endOnClose,
+                idleCheckSeconds, warnBeforeSeconds, warnBeforeHandler,
+                endedHandler);
+    }
+
+    this.moderator = null;
+
+    this.startConversation = function(baseURI, defaultURIparameters, keepAlive,
+            endOnClose, idleCheckSeconds, warnBeforeSeconds, warnBeforeHandler,
+            endedHandler) {
+        moderator = new ConversationModerator(baseURI, defaultURIparameters,
+                keepAlive, endOnClose, idleCheckSeconds, warnBeforeSeconds,
+                warnBeforeHandler, endedHandler);
+
+        if (idleCheckSeconds != null && idleCheckSeconds > 0) {
+            moderator.checkIdleNext(idleCheckSeconds);
+        }
+    }
+
+    return {
+        moderator : moderator,
+        startConversation : startConversation
+    }
+})
