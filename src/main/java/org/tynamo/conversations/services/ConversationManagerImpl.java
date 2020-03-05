@@ -7,6 +7,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
+import java.util.concurrent.ConcurrentHashMap;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -50,7 +51,7 @@ public class ConversationManagerImpl implements ConversationManager {
 	protected Map<String, Conversation> getConversations() {
 		Map<String, Conversation> conversations = (Map<String, Conversation>) request.getSession(true).getAttribute(Keys.conversations.toString());
 		if (conversations == null) {
-			conversations = Collections.synchronizedMap(new HashMap<String, Conversation>());
+			conversations = new ConcurrentHashMap<String, Conversation>();
 			request.getSession(true).setAttribute(Keys.conversations.toString(), conversations);
 		}
 		return conversations;
