@@ -2,11 +2,11 @@ package org.tynamo.conversations.services;
 
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
+import java.util.concurrent.ConcurrentHashMap;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -32,7 +32,7 @@ public class ConversationManagerImpl implements ConversationManager {
 
 	private HttpServletRequest servletRequest;
 
-	private Map<String, List<ConversationAware>> conversationAwareListeners = Collections.synchronizedMap(new HashMap<String, List<ConversationAware>>());
+	private Map<String, List<ConversationAware>> conversationAwareListeners = new ConcurrentHashMap<String, List<ConversationAware>>();
 
 	@SuppressWarnings("rawtypes")
 	public ConversationManagerImpl(Request request, HttpServletRequest servletRequest, Cookies cookies,
@@ -50,7 +50,8 @@ public class ConversationManagerImpl implements ConversationManager {
 	protected Map<String, Conversation> getConversations() {
 		Map<String, Conversation> conversations = (Map<String, Conversation>) request.getSession(true).getAttribute(Keys.conversations.toString());
 		if (conversations == null) {
-			conversations = Collections.synchronizedMap(new HashMap<String, Conversation>());
+			// use ConcurrentHashMap instead of Collections.synchronizedMap() because the former synchronizes on remove
+			conversations = new ConcurrentHashMap<String, Conversation>();
 			request.getSession(true).setAttribute(Keys.conversations.toString(), conversations);
 		}
 		return conversations;
