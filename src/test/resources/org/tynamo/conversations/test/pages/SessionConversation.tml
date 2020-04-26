@@ -4,7 +4,7 @@
 		<title>test cookie-based conversations</title>
 	</head>
 	<body>
-		<t:conversation.moderator idlecheck="1" />
+		<t:conversation.moderator idlecheck="5" />
 		<span id="secondsLeft">${secondsLeft}</span><br/>
 		<t:actionlink t:id="endConversation" name="endconversation">end conversation</t:actionlink>
 	</body>
