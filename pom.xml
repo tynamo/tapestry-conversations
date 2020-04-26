@@ -4,7 +4,7 @@
 	<artifactId>tapestry-conversations</artifactId>
 	<name>Tynamo Conversations</name>
 	<packaging>jar</packaging>
-	<version>0.2.1-SNAPSHOT</version>
+	<version>0.3.0-SNAPSHOT</version>
 	<description>
 		An implementation of conversation-within-page concept for Tapestry 5
 	</description>
@@ -12,10 +12,10 @@
 	<parent>
 		<groupId>org.tynamo</groupId>
 		<artifactId>tynamo-parent</artifactId>
-		<version>0.2.2</version>
+		<version>0.3.1</version>
 	</parent>
 	<properties>
-		<tapestry-release-version>5.4.0</tapestry-release-version>
+		<tapestry-release-version>5.5.0</tapestry-release-version>
 	</properties>
 
 	<dependencies>
@@ -34,14 +34,13 @@
 		<dependency>
 			<groupId>org.tynamo</groupId>
 			<artifactId>tynamo-test</artifactId>
-			<version>0.1.1</version>
+			<version>0.2.1</version>
 			<scope>test</scope>
 		</dependency>
 		<dependency>
 			<groupId>javax.servlet</groupId>
-			<artifactId>servlet-api</artifactId>
-			<version>2.5</version>
-			<type>jar</type>
+			<artifactId>javax.servlet-api</artifactId>
+			<version>3.1.0</version>
 			<scope>provided</scope>
 		</dependency>
 	</dependencies>
@@ -86,7 +85,6 @@
 			<plugin>
 				<groupId>org.eclipse.jetty</groupId>
 				<artifactId>jetty-maven-plugin</artifactId>
-				<version>9.2.4.v20141103</version>
 				<configuration>
 					<contextPath>/</contextPath>
 					<useTestClasspath>true</useTestClasspath>
