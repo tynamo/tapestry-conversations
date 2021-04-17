@@ -13,7 +13,6 @@
  */
 package org.tynamo.conversations.test;
 
-import static org.testng.Assert.assertEquals;
 import static org.testng.Assert.assertTrue;
 
 import org.eclipse.jetty.webapp.WebAppContext;
@@ -50,7 +49,7 @@ public class SessionConversationTest extends AbstractContainerTest {
 		assertTrue(getSecondsLeft() < 59);
 		HtmlPage page = webClient.getPage(BASEURI + "sessionconversation");
 		page = page.getAnchorByName("endconversation").click();
-		assertEquals(getSecondsLeft(page), 60);
+		assertTrue(getSecondsLeft(page) > 58);
 	}
 
 	private int getSecondsLeft() throws Exception {
