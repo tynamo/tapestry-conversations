@@ -11,10 +11,10 @@ import java.util.concurrent.ConcurrentHashMap;
 import javax.servlet.http.HttpServletRequest;
 
 import org.apache.tapestry5.EventContext;
+import org.apache.tapestry5.http.services.Request;
 import org.apache.tapestry5.services.ComponentEventRequestParameters;
 import org.apache.tapestry5.services.Cookies;
 import org.apache.tapestry5.services.PageRenderRequestParameters;
-import org.apache.tapestry5.services.Request;
 import org.tynamo.conversations.ConversationAware;
 
 public class ConversationManagerImpl implements ConversationManager {

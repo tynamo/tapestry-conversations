@@ -1,16 +1,16 @@
 package org.tynamo.conversations.services;
 
-import static org.apache.tapestry5.ioc.internal.util.CollectionFactory.newList;
+import static org.apache.tapestry5.commons.util.CollectionFactory.newList;
 
 import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 
+import org.apache.tapestry5.http.services.Request;
+import org.apache.tapestry5.http.services.Session;
 import org.apache.tapestry5.internal.services.PersistentFieldChangeImpl;
 import org.apache.tapestry5.services.PersistentFieldChange;
 import org.apache.tapestry5.services.PersistentFieldStrategy;
-import org.apache.tapestry5.services.Request;
-import org.apache.tapestry5.services.Session;
 
 public class ConversationalPersistentFieldStrategy implements PersistentFieldStrategy {
 	/**

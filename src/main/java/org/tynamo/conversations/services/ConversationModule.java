@@ -3,8 +3,10 @@ package org.tynamo.conversations.services;
 import java.lang.reflect.Method;
 
 import org.apache.tapestry5.SymbolConstants;
-import org.apache.tapestry5.ioc.Configuration;
-import org.apache.tapestry5.ioc.MappedConfiguration;
+import org.apache.tapestry5.commons.Configuration;
+import org.apache.tapestry5.commons.MappedConfiguration;
+import org.apache.tapestry5.http.services.Request;
+import org.apache.tapestry5.http.services.RequestGlobals;
 import org.apache.tapestry5.ioc.MethodAdviceReceiver;
 import org.apache.tapestry5.ioc.ServiceBinder;
 import org.apache.tapestry5.ioc.annotations.Contribute;
@@ -16,8 +18,6 @@ import org.apache.tapestry5.plastic.MethodAdvice;
 import org.apache.tapestry5.plastic.MethodInvocation;
 import org.apache.tapestry5.services.LibraryMapping;
 import org.apache.tapestry5.services.PersistentFieldStrategy;
-import org.apache.tapestry5.services.Request;
-import org.apache.tapestry5.services.RequestGlobals;
 
 public class ConversationModule {
 	public static void bind(ServiceBinder binder) {

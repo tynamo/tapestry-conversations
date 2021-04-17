@@ -1,13 +1,13 @@
 package org.tynamo.conversations.components;
 
 import org.apache.tapestry5.ComponentResources;
-import org.apache.tapestry5.Link;
 import org.apache.tapestry5.annotations.AfterRender;
 import org.apache.tapestry5.annotations.Parameter;
+import org.apache.tapestry5.http.Link;
+import org.apache.tapestry5.http.services.Request;
 import org.apache.tapestry5.ioc.annotations.Inject;
 import org.apache.tapestry5.json.JSONLiteral;
 import org.apache.tapestry5.json.JSONObject;
-import org.apache.tapestry5.services.Request;
 import org.apache.tapestry5.services.javascript.JavaScriptSupport;
 import org.tynamo.conversations.ConversationModeratorAware;
 import org.tynamo.conversations.services.ConversationManager;

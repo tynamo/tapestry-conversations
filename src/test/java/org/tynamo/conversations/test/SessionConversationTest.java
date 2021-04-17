@@ -50,7 +50,7 @@ public class SessionConversationTest extends AbstractContainerTest {
 		assertTrue(getSecondsLeft() < 59);
 		HtmlPage page = webClient.getPage(BASEURI + "sessionconversation");
 		page = page.getAnchorByName("endconversation").click();
-		assertEquals(60, getSecondsLeft(page));
+		assertEquals(getSecondsLeft(page), 60);
 	}
 
 	private int getSecondsLeft() throws Exception {
